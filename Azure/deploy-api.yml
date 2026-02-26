@@ -20,7 +20,7 @@
 name: Deploy Vehiculo API to Azure
 
 env:
-  AZURE_WEBAPP_NAME: ProductoWeb2000    # Cambia esto por el nombre de tu Azure Web App
+  AZURE_WEBAPP_NAME: productointernet2000    # Cambia esto por el nombre de tu Azure Web App
   AZURE_WEBAPP_PACKAGE_PATH: './Producto.API/API'     # Ruta al proyecto API
   DOTNET_VERSION: '8.0'                  # Versión .NET 8.0 según tu proyecto
 
