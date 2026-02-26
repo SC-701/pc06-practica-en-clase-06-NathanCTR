@@ -50,20 +50,17 @@ jobs:
 
       - name: Build with dotnet
         run: |
-          dotnet build "Producto.API/Abstracciones.csproj" --configuration Release --no-restore
-          dotnet build "Producto.API/API/*.csproj" --configuration Release --no-restore
-          dotnet build "Producto.API/DA/*.csproj" --configuration Release --no-restore
-          dotnet build "Producto.API/DA.EF/*.csproj" --configuration Release --no-restore
-          dotnet build "Producto.API/Flujo/*.csproj" --configuration Release --no-restore
-          dotnet build "Producto.API/Helpers/*.csproj" --configuration Release --no-restore
-          dotnet build "Producto.API/Reglas/*.csproj" --configuration Release --no-restore
-          dotnet build "Producto.API/Servicios/*.csproj" --configuration Release --no-restore
+          dotnet build "Producto.API/Abstracciones/Abstracciones.csproj" --configuration Release --no-restore
+          dotnet build "Producto.API/API/API.csproj" --configuration Release --no-restore
+          dotnet build "Producto.API/DA/DA.csproj" --configuration Release --no-restore
+          dotnet build "Producto.API/Flujo/Flujo.csproj" --configuration Release --no-restore
+          
 
       - name: Run tests
-        run: dotnet test "./Producto.API/Producto.API.sln" --no-restore --verbosity normal --configuration Release || echo "No tests found or test execution failed"
+        run: dotnet test "Producto.API/Producto.API.sln" --no-restore --verbosity normal --configuration Release || echo "No tests found or test execution failed"
 
       - name: dotnet publish
-        run: dotnet publish "./Producto.API/Helpers/*.csproj" -c Release -o ./publish --no-restore
+        run: dotnet publish "Producto.API/Helpers/*.csproj" -c Release -o ./publish --no-restore
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
