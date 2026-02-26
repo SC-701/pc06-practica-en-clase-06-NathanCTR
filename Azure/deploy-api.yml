@@ -1,34 +1,25 @@
-﻿# This workflow will build and push a .NET Core app to an Azure Web App when a commit is pushed to your default branch.
-#
-# This workflow assumes you have already created the target Azure App Service web app.
-# For instructions see https://docs.microsoft.com/en-us/azure/app-service/quickstart-dotnetcore?tabs=net60&pivots=development-environment-vscode
+# This workflow will build and push a .NET Core app to an Azure Web App when a commit is pushed to your default branch.
 #
 # To configure this workflow:
 #
-# 1. Download the Publish Profile for your Azure Web App. You can download this file from the Overview page of your Web App in the Azure Portal.
-#    For more information: https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions?tabs=applevel#generate-deployment-credentials
+# 1. Download the Publish Profile for your Azure Web App from the Azure Portal
+# 2. Create a secret in your repository named AZURE_WEBAPP_PUBLISH_PROFILE, paste the publish profile contents as the value
+# 3. Update the AZURE_WEBAPP_NAME below with your actual Web App name
 #
-# 2. Create a secret in your repository named AZURE_WEBAPP_PUBLISH_PROFILE, paste the publish profile contents as the value of the secret.
-#    For instructions on obtaining the publish profile see: https://docs.microsoft.com/azure/app-service/deploy-github-actions#configure-the-github-secret
-#
-# 3. Change the value for the AZURE_WEBAPP_NAME. Optionally, change the AZURE_WEBAPP_PACKAGE_PATH and DOTNET_VERSION environment variables below.
-#
-# For more information on GitHub Actions for Azure: https://github.com/Azure/Actions
-# For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
+# Generated automatically by PowerShell script on 07/09/2025 22:17:01
 
-name: Deploy Vehiculo API to Azure
+name: Build and deploy Web App
 
 env:
-  AZURE_WEBAPP_NAME: productointernet2000    # Cambia esto por el nombre de tu Azure Web App
-  AZURE_WEBAPP_PACKAGE_PATH: './Producto.API/API'     # Ruta al proyecto API
-  DOTNET_VERSION: '8.0'                  # Versión .NET 8.0 según tu proyecto
+  AZURE_WEBAPP_NAME: productointernet2000    # Change this to your Azure Web App name
+  AZURE_WEBAPP_PACKAGE_PATH: './Producto.API/API'
+  DOTNET_VERSION: '8.0'
 
 on:
   push:
     branches: [ "main" ]
-    paths-ignore:
-      - 'Producto.API/BD/**'
+    paths:
+      - './Producto.API/Helpers/**'
   workflow_dispatch:
 
 permissions:
@@ -55,32 +46,24 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: |
-          cd "Producto.API"
-          dotnet restore "Abstracciones/Abstracciones.csproj"
-          dotnet restore "DA/DA.csproj"
-          dotnet restore "Flujo/Flujo.csproj"
-          dotnet restore "Reglas/Reglas.csproj"
-          dotnet restore "Servicios/Servicios.csproj"
-          dotnet restore "API/API.csproj"
+        run: dotnet restore "./Producto.API/Producto.API.sln"
 
-      - name: Build with dotnet (excluding BD project)
+      - name: Build with dotnet
         run: |
-          cd "Producto.API"
-          dotnet build "Abstracciones/Abstracciones.csproj" --configuration Release --no-restore
-          dotnet build "DA/DA.csproj" --configuration Release --no-restore
-          dotnet build "Flujo/Flujo.csproj" --configuration Release --no-restore
-          dotnet build "Reglas/Reglas.csproj" --configuration Release --no-restore
-          dotnet build "Servicios/Servicios.csproj" --configuration Release --no-restore
-          dotnet build "API/API.csproj" --configuration Release --no-restore
+          dotnet build "./Producto.API/Abstracciones/*.csproj" --configuration Release --no-restore
+          dotnet build "./Producto.API/API/*.csproj" --configuration Release --no-restore
+          dotnet build "./Producto.API/DA/*.csproj" --configuration Release --no-restore
+          dotnet build "./Producto.API/DA.EF/*.csproj" --configuration Release --no-restore
+          dotnet build "./Producto.API/Flujo/*.csproj" --configuration Release --no-restore
+          dotnet build "./Producto.API/Helpers/*.csproj" --configuration Release --no-restore
+          dotnet build "./Producto.API/Reglas/*.csproj" --configuration Release --no-restore
+          dotnet build "./Producto.API/Servicios/*.csproj" --configuration Release --no-restore
 
-      - name: Run tests (excluding BD project)
-        run: |
-          cd "Producto.API"
-          dotnet test "API/API.csproj" --no-restore --verbosity normal --configuration Release || echo "No tests found or test execution failed"
+      - name: Run tests
+        run: dotnet test "./Producto.API/Producto.API.sln" --no-restore --verbosity normal --configuration Release || echo "No tests found or test execution failed"
 
       - name: dotnet publish
-        run: dotnet publish "Producto.API/API/API.csproj" -c Release -o ./publish --no-restore
+        run: dotnet publish "./Producto.API/Helpers/*.csproj" -c Release -o ./publish --no-restore
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -111,3 +94,6 @@ jobs:
           publish-profile: ${{ secrets.AZURE_PROAPP_PUBLISH_PROFILE }}
           package: .
           respect-funcignore: true
+
+
+
