@@ -19,7 +19,7 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - './Producto.API/Helpers/**'
+      - 'Producto.API/Helpers/**'
   workflow_dispatch:
 
 permissions:
@@ -46,18 +46,18 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore "./Producto.API/Producto.API.sln"
+        run: dotnet restore "Producto.API/Producto.API.sln"
 
       - name: Build with dotnet
         run: |
-          dotnet build "./Producto.API/Abstracciones/*.csproj" --configuration Release --no-restore
-          dotnet build "./Producto.API/API/*.csproj" --configuration Release --no-restore
-          dotnet build "./Producto.API/DA/*.csproj" --configuration Release --no-restore
-          dotnet build "./Producto.API/DA.EF/*.csproj" --configuration Release --no-restore
-          dotnet build "./Producto.API/Flujo/*.csproj" --configuration Release --no-restore
-          dotnet build "./Producto.API/Helpers/*.csproj" --configuration Release --no-restore
-          dotnet build "./Producto.API/Reglas/*.csproj" --configuration Release --no-restore
-          dotnet build "./Producto.API/Servicios/*.csproj" --configuration Release --no-restore
+          dotnet build "Producto.API/Abstracciones/*.csproj" --configuration Release --no-restore
+          dotnet build "Producto.API/API/*.csproj" --configuration Release --no-restore
+          dotnet build "Producto.API/DA/*.csproj" --configuration Release --no-restore
+          dotnet build "Producto.API/DA.EF/*.csproj" --configuration Release --no-restore
+          dotnet build "Producto.API/Flujo/*.csproj" --configuration Release --no-restore
+          dotnet build "Producto.API/Helpers/*.csproj" --configuration Release --no-restore
+          dotnet build "Producto.API/Reglas/*.csproj" --configuration Release --no-restore
+          dotnet build "Producto.API/Servicios/*.csproj" --configuration Release --no-restore
 
       - name: Run tests
         run: dotnet test "./Producto.API/Producto.API.sln" --no-restore --verbosity normal --configuration Release || echo "No tests found or test execution failed"
