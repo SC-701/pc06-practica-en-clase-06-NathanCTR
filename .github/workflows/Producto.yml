@@ -50,7 +50,7 @@ jobs:
 
       - name: Build with dotnet
         run: |
-          dotnet build "Producto.API/Abstracciones/*.csproj" --configuration Release --no-restore
+          dotnet build "Producto.API/Abstracciones.csproj" --configuration Release --no-restore
           dotnet build "Producto.API/API/*.csproj" --configuration Release --no-restore
           dotnet build "Producto.API/DA/*.csproj" --configuration Release --no-restore
           dotnet build "Producto.API/DA.EF/*.csproj" --configuration Release --no-restore
