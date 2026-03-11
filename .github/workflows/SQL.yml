@@ -41,9 +41,6 @@ jobs:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v1
 
-      - name: Restore NuGet packages
-        run: nuget restore "SQLQuery1.sql" 
-
       - name: Build Database Project
         run: |
           msbuild "SQLQuery1.sql" /p:Configuration=Release /p:Platform="Any CPU" /p:OutputPath="./bin/Release/"  
