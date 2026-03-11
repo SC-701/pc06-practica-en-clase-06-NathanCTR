@@ -14,13 +14,13 @@ name: Deploy Producto Database to Azure SQL
 env:
   AZURE_SQL_SERVER: productonathan15.database.windows.net  # Tu servidor SQL de Azure (ejemplo: vehiculo-db-server.database.windows.net)
   AZURE_SQL_DATABASE: productos-db    # Nombre de tu base de datos
-  DACPAC_PATH: 'SQLQuery1.sql'
+  DACPAC_PATH: 'Producto.API/BD/SQLQuery1.sql'
 
 on:
   push:
     branches: [ "main" ]
     paths:
-      - 'SQLQuery1.sql'
+      - 'Producto.API/BD/SQLQuery1.sql'
   workflow_dispatch:
 
 permissions:
@@ -43,7 +43,7 @@ jobs:
 
       - name: Build Database Project
         run: |
-          msbuild "SQLQuery1.sql" /p:Configuration=Release /p:Platform="Any CPU" /p:OutputPath="./bin/Release/"  
+          msbuild Producto.API/BD/SQLQuery1.sql" /p:Configuration=Release /p:Platform="Any CPU" /p:OutputPath="./bin/Release/"  
         shell: cmd
 
       - name: Verify DACPAC file exists
