@@ -34,8 +34,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        shell: cmd
-
+        
       - name: Verify DACPAC file exists
         run: |
           if (Test-Path "${{ env.DACPAC_PATH }}") {
