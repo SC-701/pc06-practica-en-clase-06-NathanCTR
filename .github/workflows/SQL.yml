@@ -42,7 +42,7 @@ jobs:
         uses: NuGet/setup-nuget@v1
 
       - name: Restore NuGet packages
-        run: nuget restore "Producto.API/BD.API.sln" 
+        run: nuget restore "Producto.API/BD/BD.sqlproj" 
 
       - name: Build Database Project
         run: |
